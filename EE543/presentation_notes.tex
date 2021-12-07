@@ -2,8 +2,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{enumitem}
 \usepackage{amsmath}
-\newlist{steps}{enumerate}{1}
-\setlist[steps, 1]{label = Step \arabic*:}
+\newlist{steps}{enumerate}{2}
+\setlist[steps]{label*=\arabic*.}
 
 \title{EE543 - Neurocomputers and Deep Learning}
 \author{Ahmet Taha Albayrak}
@@ -26,10 +26,12 @@
 Perceptron was introduced by Frank Rosenblatt in the late 1950's with a learning algorithm.
 Perceptron may have continuous valued inputs.
 It works in the the same way as the formal artificial neuron defined previously
-Its activation is determined by equation: $\alpha= w^Tu+\theta $
-
-Now, consider such a perceptron in N dimensional space,t he equation $w^Tu + \theta = 0$ that 
-$w_1u_1 + w_2u_2 +...+w_nu_n=0$ defines a hyperplane. This hyperplane devides the input space into two parts
+Its activation is determined by equation:
+\[\alpha= w^Tu+\theta \] 
+Now, consider such a perceptron in N dimensional space,t he equation 
+\[w^Tu + \theta = 0\] 
+that 
+\[w_1u_1 + w_2u_2 +...+w_nu_n=0\] defines a hyperplane. This hyperplane devides the input space into two parts
 such that at one side, the perceptron has output value +1, and in the other side, it is -1.
 
 A perceptron can be used to decide whether an input vector belongs to one of two classes say classes A and B.
@@ -61,7 +63,9 @@ The LMS algorithm was first proposed for Adaline (Adative Linear Element) in [Wi
 
 
 The output function of the Adaline can be represented by the identity function as $f(a)=a$
-So the output can be written in terms of input and weights as $x=f(a)=\sum_{j = 0}^{N} w_ju_j$ where the bias is implemented via a connection to a constant input $u_0$ 
+So the output can be written in terms of input and weights as 
+\[x=f(a)=\sum_{j = 0}^{N} w_ju_j\] 
+where the bias is implemented via a connection to a constant input $u_0$ 
 which means the input vector and the weight vector are of space $R^{(N+1)}$ instead of $R^N$ 
 The output equation of Adaline can be written as: $ x=w^Tu$ where w and u are weight and input vectors respectively having dimension $N+1$ \\
   
@@ -69,16 +73,19 @@ The output equation of Adaline can be written as: $ x=w^Tu$ where w and u are we
 Suppose that we have a set of input vectors $u^k, k=1,2..K$,each having its own desired output value $y^k$
 The performance of the Adaline for a given input value $u^k$ can be defined by considering the difference between the desired output $y^k$ and 
 the actual output $x^k$, which is called error and denoted as $\varepsilon^k$
-Therefore, the error for the input $u^k$ is as follows: $\varepsilon^k=y^k-x^k=y^k-w^Tu^k$
+Therefore, the error for the input $u^k$ is as follows: 
+\[\varepsilon^k=y^k-x^k=y^k-w^Tu^k\]
+
 The aim of LMS learning is to adjust the weights through a training set {{$u^k$,$y^k$}} $k=1,2..K$ such that the mean of square of the errors is minimum.
-The mean square error is defined as $<(\varepsilon^k)^2>= \lim_{k \to \infty} 1/K \sum_{n = 1}^{K}(\varepsilon^k)^2$ where the notation $<.>$ denotes the mean value. 
+The mean square error is defined as 
+\[<(\varepsilon^k)^2>= \lim_{k \to \infty} 1/K \sum_{n = 1}^{K}(\varepsilon^k)^2\] where the notation $<.>$ denotes the mean value. 
 
 The mean square error can be written as $<(\varepsilon^k)^2> = <(y^k - w^Tu^k)^2> = <(y^k)^2> + w^T <u^k\times u^k> w - 2 <y^ku^(k^T)> w$ where T denotes transpose and $\times$ denotes outer vector product.
 Defining input correlation matrix $R$ and a vector $P$ as $R = <u^k\times u^k> = <u^ku^(k^T)>$ and $P = <y^ku^k>$ results in $e(w)=<(\varepsilon^k)^2> = <(y^k)^2> + w^TRw - 2P^Tw$. 
 The optimum value $w^*$ for weight vector corresponding to the minimum of the mean square error can be obtained by evaluating the gradient of $e(w)$. \\
 
 The point which makes gradient zeros gives us the value of $w^*$. That is 
-$\nabla e(w)|_{w=w^*} = \frac{d e(w)}{d w}|_{w=w^*} = 2Rw^* - 2P = 0 $. Here the gradient is $\nabla e(w) = [ \frac{d e}{ d w_1} \frac{d e}{ d w_2} ... \frac{d e}{ d w_n} ]^T$ and it is a vector exteding in the direction of the greatest rate of change
+\[\nabla e(w)|_{w=w^*} = \frac{d e(w)}{d w}|_{w=w^*} = 2Rw^* - 2P = 0 \]. Here the gradient is $\nabla e(w) = [ \frac{d e}{ d w_1} \frac{d e}{ d w_2} ... \frac{d e}{ d w_n} ]^T$ and it is a vector exteding in the direction of the greatest rate of change
 The gradient of a function evaluated at some point is zero if the function has a maximum or minimum at that point. 
 The error function is of the second degree. So it is a paraboloid and it has a single minimum at point $w^*$.
 
@@ -105,17 +112,85 @@ Since $\nabla a^k = \nabla w(t)^Tu^k=u^k$ the weight update formula becomes $ w(
 \end{steps}
 
 Notice that the iterative weight update by the \textbf{delta rule} is derived by assumingh constant $u^k$. Therefore, it tends to minimize the error wtih respect to applied $u^k$
-In fact, we require the average error to be minimized. This implies that $\frac{de}{dw_j}=  \frac{1}{K} \sum_{k = 1}^{K}\frac{d(\varepsilon^k)^2}{dw_j} = \dfrac{1}{K} \sum_{k=1}^{K} \frac{2\varepsilon^kd\varepsilon^k}{dw_j}$ \\
+In fact, we require the average error to be minimized. This implies that 
+\[\frac{de}{dw_j}=  \frac{1}{K} \sum_{k = 1}^{K}\frac{d(\varepsilon^k)^2}{dw_j} = \dfrac{1}{K} \sum_{k=1}^{K} \frac{2\varepsilon^kd\varepsilon^k}{dw_j}\]
 
 Therefore, the net change in $w_j$ after one complete cycle of pattern presentation is expected to be
-$w_j(t+K) = w_j(t) - \eta\frac{1}{K}\sum_{k=1}^{K}\frac{2\varepsilon^kd\varepsilon^k}{w_j}$
+\[w_j(t+K) = w_j(t) - \eta\frac{1}{K}\sum_{k=1}^{K}\frac{2\varepsilon^kd\varepsilon^k}{w_j}\]
 However, this would be true that if the weights are not updated along a cycle but only at the end. By changing the weights as each pattern is presented, we depart to some extend from gradient descent in $e$
 Nevertheless, provided the learning rate is sufficiently small, this departure will be negligible and \textbf{delta rule} will implement a very close approximation to gradient descent in mean squared error [Freeman 91].
 
-\section{The Backpropagation Algorithm : Single Layer Network}
+\section{The Backpropagation Algorithm: Single Layer Network}
+
+Consider a single layer multiple output network. Here, we stil have N inputs denoted $u_j$, $j=1...N$ but M processing elements whose activation and outputs denoted as $a_i$ and $x_i$, $i=1...M$ respectively
+$w_{ji}$ used to denote the strength of the connection from the $j^{th}$ input to the $i^{th}$ processing element. 
+In vector notation $w_{ji}$ is the $j^{th}$ component of weight vector $w_i$, while $u_j$ is the $j^{th}$ component of the input vector $u$ \\
+
+Let $u^k$ and $y^k$ to represent the $k^{th}$ input sample and the corresponding desired output vector respectively.
+Let the error observed at the output $i$, when $u^k$ is applied at the input, be $\varepsilon_i^k = y_i^k-x_i^k$. If the error is to be written in terms of the input vector $u^k$ and the weights $w_j$, we obtain $\varepsilon_i^k = y_i^k - f(w_i^Tu^k)$.
+
+If we take the partial derivative with respect to $w_ji$ by applying the chain rule 
+\[\frac{d\varepsilon_i^k}{dw_{ji}} = \frac{d\varepsilon_i^k}{dx_i^k}\frac{dx_i^k}{dw_{ji}}\]
+where 
+\[\frac{d\varepsilon_i^k}{dx_i^k} = -1 \ and\ \frac{dx_i^k}{dw_{ji}} = f'(a_i^k)u^k_j \] 
+We obtain
+\[\frac{d\varepsilon_i^k}{dw_{ji}} = -f'(a^k)u_j^k\]
+
+If we define the total output error for input $u^k$ as the sum of the square of errors at each neuron output, then partial
+derivate of the total error with respect to $w_{ji}$, when $u^k$ is applied at the input can be written as
+\[\frac{de^k}{dw_{ji}} = \frac{de^k}{d\varepsilon_i^k}\frac{d\varepsilon_i^k}{dw_{ji}}\]
+which is 
+\[\frac{de^k}{dw_{ji}} = -\varepsilon_i^kf'(a^k)u_j\]
+by defining 
+\[\delta_i^k = \varepsilon_i^kf'(a^k)\]
+it can be formulated as 
+\[\frac{de^k}{dw_{ji}}= -\delta_i^ku_i^k\]
+
+For the error to be minimum the gradient of the total error with respect to weights should be 0.
+In order to reach the minimum of the total error, without solving the above equation, we can apply \textbf{delta rule} in the same way explained for the steepest descent algorithm
+\[w_{ji}(t+1) =  w_{ji}(t) + \eta\delta_i^ku_j^k \ for j=1..N, i=1..M\]
+
+\section{The Backpropagation Algorithm: Multi Layer Network}
+
+Now, assume that another layer of neurons is connected to the input side of the output layer.
+Therefore we have input, hidden and the output layer. In order to discriminate between the elements of the hidden and output layers
+We will use the subscripts $L$ and $o$ respectively.
+Furthermore, we will use h as the index on the hidden layer elements, while still using index $j$ and $i$ for the input and output layers respectively
+
+In such a network, the output value of $i^{th}$ neuron of the output layer can be written as 
+\[x_{i_o}^k=f_o(w_{i_o}^Tx_L^k)\]
+where $x_L^k$ being the vector of the output values at hidden layer that is connected as input to the output layer. The value of the $h^{th}$ element $x_L^k$ is determined by the equation
+\[x_{h_L}^k=f_L(w_{h_L}^Tu^k)\]
+The partial derivate of the output of a neuron $i_o$ of output layer wtih respect the hidden layer weight $w_{jhL}$ can be determined by applying chain rule
+\[\frac{dx_{i_o}^k}{dw_{jh_L}} = \frac{dx_{i_o}^k}{dx_{h_L}^k}  \frac{dx_{h_L}^k}{dw_{jh_L}} \]
+We can rewrite the equation as 
+\[\frac{dx_{i_o}^k}{dw_{jh_L}} = (f'_o(a_{i_o}^k)w_{h_Li_o})(f_L'(a_{h_L}^ku_j^k))\]
+
+Then the partial derivate of the total error with respect to hidden layer $w_{jh_L}$ can be written as
+\[\frac{de^k}{dw_{jh_L}}= - \sum_{i_0=1}^{M}\varepsilon_{i_o}^kf_o'(a_{i_o}^k)w_{h_Li_o}f_L'(a_{h_L}^k)u_j^k\] 
+
+Therefore, the weight update rule for the hidden layer
+\[w_{jh_L}(t+1)= w_{jh_L}(t) - \eta \frac{de^k}{dw_{jh_L}}\]
+can be reformulated by using the same analogy in the single layer network section
+\[w_{jh_L}(t+1) = w_{jh_L}(t) + \eta\delta_{h_L}^ku_j\]
 
 
-
+\begin{steps}
+    \item  \textbf{Initialize weights:} to small random values
+    \item  \textbf{Apply a sample:} apply to the input a sample vector $u^k$ having desired output vector $y^k$
+    \item  \textbf{Forward Phase:} Starting from the first hidden layer and propagating towards the output layer
+    \begin{steps}
+        \item \textbf{Calculate the activation values} for the units at layer $L$
+        \item \textbf{Calculate the output values} for the units at layer $L$
+    \end{steps} 
+    \item \textbf{Output erros:} Calculate the error at the output layer as
+    \[\delta_{i_o}^k = (y_{i_o}^k - x_{i_o}^k)f_o'(a_{i_o}^k)\]
+    \item \textbf{Backwar Phase} Propagate error backward to the input layer through each layer $L$ using the error term
+    \[\delta_{h_L}^k = f_L'(a_{h_L}^k)\sum_{i_{L+1}=1}^{N_{L+1}}\delta_{i_{(L+1)}}^k w_{h_{L_{(L+1)}^i}}^k\]
+    \item \textbf{Weight update:} Update the weights according to the formula
+    \[w_{j_{(L-1)h_L}}(t+1) = w_{j_{(L-1)h_L}}(t) +\eta\delta_{h_L}^kx_{j_{(L-1)}}^k \] 
+    \item \textbf{Repeat} steps 1-6 until the stop criterion is satisfied.
+\end{steps}
 
 
 
