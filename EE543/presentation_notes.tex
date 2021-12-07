@@ -185,7 +185,7 @@ can be reformulated by using the same analogy in the single layer network sectio
     \end{steps} 
     \item \textbf{Output erros:} Calculate the error at the output layer as
     \[\delta_{i_o}^k = (y_{i_o}^k - x_{i_o}^k)f_o'(a_{i_o}^k)\]
-    \item \textbf{Backwar Phase} Propagate error backward to the input layer through each layer $L$ using the error term
+    \item \textbf{Backward Phase} Propagate error backward to the input layer through each layer $L$ using the error term
     \[\delta_{h_L}^k = f_L'(a_{h_L}^k)\sum_{i_{L+1}=1}^{N_{L+1}}\delta_{i_{(L+1)}}^k w_{h_{L_{(L+1)}^i}}^k\]
     \item \textbf{Weight update:} Update the weights according to the formula
     \[w_{j_{(L-1)h_L}}(t+1) = w_{j_{(L-1)h_L}}(t) +\eta\delta_{h_L}^kx_{j_{(L-1)}}^k \] 
