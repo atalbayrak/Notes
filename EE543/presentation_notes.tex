@@ -192,6 +192,94 @@ can be reformulated by using the same analogy in the single layer network sectio
     \item \textbf{Repeat} steps 1-6 until the stop criterion is satisfied.
 \end{steps}
 
+\chapter{Deep Learning}
+\section{Deep Learning Motivation}
+
+Patter recognition task contains 3 steps such as \textbf{Feature Extraction}, \textbf{Dimension Reduction} and \textbf{Classification}. In Feature extraction steps, it requires expertise to decide on which feature to use.
+In Dimension reduction step, learning is harder if the dimension of the feature vector is high. In classification step, we can use a simple fully connected network (shallow). We can skip feature extraction and dimension reduction steps by using Fully Connected Networks.
+Also, we can use Deep Neural Networks for all steps. \\
+
+Motivation of Deep Learning is optimization problem, shallow networks capacity, unsupervised learning.
+
+\subsection{Problems In Deep MLP (Fully Connected Deep Network)}
+\begin{steps}
+    \item Training takes long time due to number of parameters.\\
+    \textbf{Solution:} Convolutional Neural Network(CNN): local connection and weight sharing
+    \item Need lots of labeled data \\
+    \textbf{Solution:} Auto Encoder, Restricted Boltzman Machine
+    \item Partial Derivatives at lower layer fades away in backpropagation phase. \\
+    \textbf{Solution:} Stacked Auto Encoder, Deep RBM
+\end{steps}
+
+\section{Deep Learning Overview}
+
+Multiple layer works to build improved feature space such that first layer learns $1^{st}$ order features (e.g edges, lines ..)
+Second layer learns higher order features like combination of first layer (e.g square, rectangle), further layer can combine those filters to get more sophisticated features like face, hand. 
+Usually Deep learning results best when input space is locally structured (spatial or temporal) (e.g image, language)
+
+In current models layer often learns in an unsupervised mode and discover general features of the input spcae - serving multiple tasks related to the unsupervised instances
+Then final layer features are fed into supervised layers and entire network is often subsequently tuned using supervised training of the entire net, using the initial weightings learned in the unsupervised phase.
+Also, you can do fully supervised version.
+
+\section{Convolutional Neural Networks (CNN)}
+
+CNN is firstly proposed by Fukushima(1980) (Neo-Cognitron) and LeCun (1998) (Convolutional Neural Networks). The common characteristics of CNN are:
+\begin{steps}
+    \item A special kind of multi-layer neural networks.
+    \item Implicityly extract relevant features.
+    \item A feed-Forward network that can extract topological properties from a structured data (e.g image)
+    \item Like almost every othe neural networks, CNN are trained with a version of the backpropagation algorithm.
+\end{steps}
+
+Convolution layer uses filters (i.e locally connected and shared weight structure resulting in a much smaller number of parameters due to local connection and weight sharing in filters
+Locally connected shared weights results in translation equvariance, if you shift input m units output shifts accordingly.
+
+\textbf{Convolution (1D):}
+
+\[s(t) = (x\ast w)(t)\]
+continuous case:
+\[s(t)\int_{}^{} x(a)w(t-a) \,da \]
+discrete case:
+\[s[t]\sum_{a=-\infty}^{\infty} x[a]w[t-a] \]
+
+\subsection{Weight update for shared weights}
+
+Let $w_{(i+k,j+k) k=0,1..M}$ be shared weights the n to constrain $w_{(i+k_1,j+k_1)}=w_{(i+k_2,j+k_2)}$ where $k_1,k_2=0,1..M-1$. 
+We need that $\Delta w_{(i+k_1,j+k_1)}=\Delta w_{(i+k_2,j+k_2)}$ in the training. For this purpose, we will use
+\[\Delta w_{(i+k_1,j+k_1)}=\Delta w_{(i+k_2,j+k_2)}=\frac{1}{m}\sum_k\frac{de}{dw_{i+k,j+k}}\]
+
+\textbf{Remarks:}
+
+\begin{steps}
+    \item CNN may be used either for classification or regression similar to MLP. For classification, using softmax at the last layer increases the performance.
+    \item Instead of using convolutional layer with large sized filter, use many filter with small filters.
+    \item Zero padding may be used in order to feature map to have the same size as the previous layer after filtering
+    \item Due to memory limitations, instead the whole training set, use mini-batch selected randomly from training set, then change the minibatch used after updating the weights
+    \item Weight initization is important. (e.g Xavizer initiliser)
+    \item Use Adam optimizer insted of classical gradient descent
+    \item Over-fit occurs if the dataset is not large enough. In order to increase \textbf{generalisation ability}, you may reduce the depth of the network in order to decrease the number of parameters but there are some other solution
+    \begin{steps}
+        \item \textbf{Data augmentation:} in order to increase training set, produce artificial sample (e.g mirror symmetry)
+        \item \textbf{Drop-out:} At each iteration, arbitrarily select some neuron and set their output to 0,
+        \item \textbf{Transfer Learning:} use a CNN trained on a large dataset as initial weights  
+    \end{steps}
+\end{steps}
 
 
-\end{document}
+\section{Stacked Auto-Encoders}
+
+Stacked Auto-Encoders is proposed by Bengio (2007) after Deep Belief Networks (Hinton,2006). We can stack many (sparse) auto-encoders in succession and them using greedy layer-wise training and each iteration drop the decode output layer.
+
+Auto-Encoders will often do a dimensionality reduction like PCA or non-linear dimensionality reduction.
+This leads to a "dense" repesentation which is nice terms of use of resource (i.e number of nodes). All features
+typically have non-zero values for any input and the combination of values contains compressed information.
+
+However, this distributed repesentation can often make it more difficult for successive layers to pick out the salient featuer
+Sparse repesentation usees more feature where at any given time a significant number of the features will have a 0 value.
+Thisd leads to more localist veriable length encodings where a particular node with value 1 signifies the presence of a feature.
+This is easier for subseqeunt layers to use for learning
+For sparse encodings, use more hidden nodes in the encoder and use regularization techniques which encourge sparseness
+
+There is another auto-encoders type which is de-noising auto-encoder. De-noising Auto-Encoder stochastically corrupt training instance each time, but still train auto-encoder to decode the uncorrupted instance, forcing it to learn conditional dependencies within the instance.
+De-noising Auto-Encoder yield better empirical result and handles missing values well
+\end{document}"
